@@ -11,12 +11,70 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./test/v3/d1/miniflare-D1DatabaseObject/0b2e41ca4e35e6b3a91ab7bd81f39227cedd06d31f81857c554b6b0466f9bf50.sqlite"
 }
 
 
 model User {
-  id    Int     @id @default(autoincrement())
+  userId    Int     @id @default(autoincrement())
+  name  String  
   email String  @unique
-  name  String?
+  verified Boolean @default(false)
+  verificationOTP String?
+  password String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  degree String
+  branch String
+  batchPassYear Int
+
+  personalProjects PersonalProjects[]
+  comments Comment[]
+}
+
+
+model PersonalProjects {
+  projectId Int @id @default(autoincrement())
+  projectTitle String
+  projectContent String
+  imageUrl String?
+  tag1 String?
+  tag2 String?
+  tag3 String?
+  tag4 String?
+  tag5 String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user User @relation(fields: [userId], references: [userId])
+
+  likes Likes[]
+
+  comments Comment[]
+}
+
+
+model Likes {
+  likeId Int @id @default(autoincrement())
+  cntLikes Int @default(0)
+  cntDislikes Int @default(0)
+  createdAt DateTime @default(now())
+
+  projectId Int
+  project PersonalProjects @relation(fields: [projectId], references: [projectId])
+}
+
+
+model Comment {
+  commentId Int @id @default(autoincrement())
+  commentContent String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projectId Int
+  project PersonalProjects @relation(fields: [projectId], references: [projectId])
+
+  commentBy Int
+  user User @relation(fields: [commentBy], references: [userId])
 }

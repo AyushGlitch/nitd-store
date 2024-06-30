@@ -17,7 +17,6 @@ compatibility_date = "2023-12-01"
 binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "nitd-store"
 database_id = "804dccab-1d6f-4048-9f2f-6f98b2205637"
-migrations_dir= "prisma/migrations"
 
 # [ai]
 # binding = "AI"
