@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "db:firstMigration": "wrangler d1 migrations create nitd-store first-migration",
+    "db:migrate": "prisma migrate diff --from-empty --to-schema-datamodel ./prisma/schema.prisma --script --output prisma/migrations/0001_first-migration.sql",
+    "db:apply-local": "wrangler d1 migrations apply nitd-store --local",
+    "db:apply-remote": "wrangler d1 migrations apply nitd-store --remote"
+  },
+  "dependencies": {
+    "@prisma/adapter-d1": "^5.16.1",
+    "@prisma/client": "^5.16.1",
+    "@repo/common": "*",
+    "hono": "^4.4.9"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240529.0",
+    "prisma": "^5.16.1",
+    "wrangler": "^3.57.2"
+  }
+}
